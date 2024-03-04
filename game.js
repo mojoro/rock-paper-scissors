@@ -1,3 +1,4 @@
+// Uses Math.random to generate a random choice of rock, paper, or scissors
 function getComputerChoice() {
     let choice = Math.floor(Math.random()*10) % 3;
     if (choice === 0){
@@ -11,8 +12,7 @@ function getComputerChoice() {
     }
 }
 
-console.log(getComputerChoice())
-
+// Takes player input and computer's choice and evaluates each case to determine the winner
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     computerSelection = computerSelection.toLowerCase();
@@ -52,7 +52,7 @@ function playRound(playerSelection, computerSelection) {
     }
 }
 
-
+// Gives 5 rounds of play per refresh of the page, receives the choices and sends them to playRound()
 function playGame(){
     for (let i = 0; i < 5; i++){
         const playerSelection = prompt('Please enter "Rock", "Paper", or "Scissors"');
