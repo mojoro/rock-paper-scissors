@@ -16,49 +16,110 @@ function getComputerChoice() {
 function playRound(playerSelection, computerSelection) {
     playerSelection = playerSelection.toLowerCase();
     computerSelection = computerSelection.toLowerCase();
+    let gameMessage = '';
+    let winner = '';
 
     if (playerSelection === "rock"){
         if (computerSelection === "rock"){
-            return "You tied! Try again.";
+            gameMessage = "You tied! Try again.";
+            winner = "tie";
         }
         else if (computerSelection === "paper"){
-            return "You lose! Paper beats Rock.";
+            gameMessage = "You lose! Paper beats Rock.";
+            winner = "computer";
         }
         else if (computerSelection === "scissors"){
-            return "You win! Rock beats Scissors.";
+            gameMessage = "You win! Rock beats Scissors.";
+            winner = "player";
         }
     }
     else if (playerSelection === "paper"){
         if (computerSelection === "rock"){
-            return "You win! Paper beats Rock.";
+            gameMessage = "You win! Paper beats Rock.";
+            winner = "player";
         }
         else if (computerSelection === "paper"){
-            return "You tied! Try again.";
+            gameMessage = "You tied! Try again.";
+            winner = "tie";
         }
         else if (computerSelection === "scissors"){
-            return "You lose! Scissors beats Paper.";
+            gameMessage = "You lose! Scissors beats Paper.";
+            winner = "computer";
         }
     }
     else if (playerSelection === "scissors"){
         if (computerSelection === "rock"){
-            return "You lose! Rock beats Scissors.";
+            gameMessage = "You lose! Rock beats Scissors.";
+            winner = "computer";
         }
         else if (computerSelection === "paper"){
-            return "You win! Scissors beats Paper.";
+            gameMessage = "You win! Scissors beats Paper.";
+            winner = "player";
         }
         else if (computerSelection === "scissors"){
-            return "You tied! Try again.";
+            gameMessage = "You tied! Try again.";
+            winner = "tie";
         }
     }
+    return [gameMessage, winner];
 }
 
-// Gives 5 rounds of play per refresh of the page, receives the choices and sends them to playRound()
-function playGame(){
-    for (let i = 0; i < 5; i++){
-        const playerSelection = prompt('Please enter "Rock", "Paper", or "Scissors"');
-        const computerSelection = getComputerChoice();
-        console.log(playRound(playerSelection, computerSelection));
+const rockBtn = document.querySelector('.rock');
+const paperBtn = document.querySelector('.paper');
+const scissorsBtn = document.querySelector('.scissors');
+
+rockBtn.addEventListener('click', () => {
+    playGame("rock");
+});
+
+paperBtn.addEventListener('click', () => {
+    playGame("paper");
+});
+
+scissorsBtn.addEventListener('click', () => {
+    playGame("scissors");
+});
+
+let playerWins = 0;
+let computerWins = 0;
+
+function playGame(playerSelection){
+    const resultDiv = document.querySelector('.result');
+    const computerSelection = getComputerChoice();
+    const result = playRound(playerSelection, computerSelection);
+    resultDiv.textContent = result[0];
+    resultDiv.style.marginTop = '10px';
+
+    const playerScore = document.createElement('p');
+    const computerScore = document.createElement('p');
+
+    playerScore.textContent = "Player Score: "
+    computerScore.textContent = "Computer Score: "
+
+    resultDiv.appendChild(playerScore);
+    resultDiv.appendChild(computerScore);
+
+    const playerWinsEle = document.createElement('b');
+    const computerWinsEle = document.createElement('b');
+
+    playerScore.appendChild(playerWinsEle);
+    computerScore.appendChild(computerWinsEle);
+
+    if (result[1] === "player"){
+        playerWins++;
+    }
+    else if (result[1] === "computer"){
+        computerWins++;
+    }
+
+    playerWinsEle.textContent = playerWins;
+    computerWinsEle.textContent = computerWins;
+
+    if (playerWins === 5 && playerWins > computerWins){
+        alert("You won! Congratulations.");
+    }
+
+    if (computerWins === 5 &&  computerWins > playerWins){
+        alert("You lost! So sorry.");
     }
 }
-
-playGame();
