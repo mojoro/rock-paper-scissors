@@ -1,6 +1,6 @@
 // Uses Math.random to generate a random choice of rock, paper, or scissors
 function getComputerChoice() {
-    let choice = Math.floor(Math.random()*10) % 3;
+    let choice = Math.floor(Math.random()*1000) % 3;
     if (choice === 0){
         return "Rock";
     }
